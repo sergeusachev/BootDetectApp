@@ -5,8 +5,8 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import java.util.concurrent.TimeUnit
 
 /**
@@ -14,12 +14,12 @@ import java.util.concurrent.TimeUnit
  */
 class BootReceiver : BroadcastReceiver() {
 
+    companion object {
+        const val PERIOD_IN_MILLIS_TAG = "period_in_millis"
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
-        Log.i("MY_BOOT", "BootReceiver: onReceive")
-        /*Toast.makeText(context.applicationContext, intent.action, Toast.LENGTH_LONG).show()
-        val startActivityIntent = Intent(context, MainActivity::class.java)
-        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(startActivityIntent)*/
+        Log.i("MY_BOOT", "BootReceiver: onReceive with action ${intent.action}" )
 
         setAlarm(context)
     }
@@ -27,17 +27,36 @@ class BootReceiver : BroadcastReceiver() {
     private fun setAlarm(context: Context) {
         Log.i("MY_BOOT", "BootReceiver: setAlarm")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
         val intent = Intent(context, AlarmReceiver::class.java)
+        intent.putExtra(PERIOD_IN_MILLIS_TAG, TimeUnit.MINUTES.toMillis(5))
+
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
 
         val triggerTime = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(20)
 
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                triggerTime,
-                TimeUnit.MINUTES.toMillis(10),
-                pendingIntent
-        )
+        if (Build.VERSION.SDK_INT >= 23) {
+            Log.i("MY_BOOT", "Alarm set for api >= 23")
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerTime,
+                    pendingIntent
+            )
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            Log.i("MY_BOOT", "Alarm set for api >= 19")
+            alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerTime,
+                    pendingIntent
+            )
+        } else {
+            Log.i("MY_BOOT", "Alarm set for api < 19")
+            alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerTime,
+                    pendingIntent
+            )
+        }
     }
 
 }
