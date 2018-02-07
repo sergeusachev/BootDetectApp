@@ -19,7 +19,7 @@ class BootReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.i("MY_BOOT", "BootReceiver: onReceive with action ${intent.action}" )
+        Log.i("MY_BOOT", "BootReceiver: onReceive with action: ${intent.action}" )
 
         setAlarm(context)
     }
