@@ -13,11 +13,13 @@ class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         Log.i("MY_BOOT", "BootReceiver: onReceive")
-        /*Toast.makeText(context.applicationContext, intent.action, Toast.LENGTH_LONG).show()
-        val startActivityIntent = Intent(context, MainActivity::class.java)
-        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(startActivityIntent)*/
-        JobIntentService.enqueueWork(context, AlarmsJobIntentService::class.java, 1, Intent())
+
+        JobIntentService.enqueueWork(
+                context,
+                SetAlarmsService::class.java,
+                1,
+                Intent()
+        )
     }
 
 
