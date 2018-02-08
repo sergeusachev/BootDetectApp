@@ -14,11 +14,17 @@ class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.i("MY_BOOT", "BootReceiver: onReceive")
 
+        val intentJob = Intent()
+        intentJob.putExtra(
+                SetAlarmsService.KEY_JOB,
+                SetAlarmsService.KEY_JOB_SET_ALARM_AFTER_BOOT
+        )
+
         JobIntentService.enqueueWork(
                 context,
                 SetAlarmsService::class.java,
                 1,
-                Intent()
+                intentJob
         )
     }
 

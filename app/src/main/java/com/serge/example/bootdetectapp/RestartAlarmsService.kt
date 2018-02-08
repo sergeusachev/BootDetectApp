@@ -14,7 +14,7 @@ import android.util.Log
 class RestartAlarmsService : JobIntentService() {
 
     override fun onHandleWork(intent: Intent) {
-        Log.i("MY_BOOT", "RestartAlarmService: setAlarm")
+        /*Log.i("MY_BOOT", "RestartAlarmService: setAlarm")
 
         val scheduleId = intent.getLongExtra(SetAlarmsService.KEY_ID_SCHEDULE, -1)
         val schedulePeriod = intent.getLongExtra(SetAlarmsService.KEY_SCHEDULING_PERIOD, -1)
@@ -28,7 +28,7 @@ class RestartAlarmsService : JobIntentService() {
                     scheduleId,
                     schedulePeriod
             )
-        }
+        }*/
     }
 
     override fun onDestroy() {
@@ -36,7 +36,7 @@ class RestartAlarmsService : JobIntentService() {
         Log.i("MY_BOOT", "RestartAlarmsService: onDestroy")
     }
 
-    private fun setAlarm(context: Context, idSchedule: Long, periodInMillis: Long) {
+    /*private fun setAlarm(context: Context, idSchedule: Long, periodInMillis: Long) {
         Log.i("MY_BOOT", "RestartAlarmService: setAlarm")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -76,5 +76,5 @@ class RestartAlarmsService : JobIntentService() {
                     pendingIntent
             )
         }
-    }
+    }*/
 }
