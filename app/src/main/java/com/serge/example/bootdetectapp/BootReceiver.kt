@@ -33,7 +33,7 @@ class BootReceiver : BroadcastReceiver() {
 
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
 
-        val triggerTime = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(20)
+        val triggerTime = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(10)
 
         if (Build.VERSION.SDK_INT >= 23) {
             Log.i("MY_BOOT", "Alarm set for api >= 23")
